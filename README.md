@@ -66,7 +66,7 @@ docker run -d --restart=unless-stopped -p 8080:8080 rancher/server \
 
 
 #login in rancher server
-http://180.76.119.138:8080
+http://.138:8080
 
 
 #ado with node 1-3
