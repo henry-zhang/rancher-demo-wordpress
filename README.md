@@ -52,10 +52,15 @@ service docker start
 #do with demo-control01
 
 docker run --name mysql01 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql
+
 sleep 20
+
 docker logs mysql01
+
 docker cp rancher.sql mysql01:/
+
 docker exec -ti mysql01 sh -c 'exec mysql -uroot -proot < /rancher.sql'
+
 docker run -d --restart=unless-stopped -p 8080:8080 rancher/server \
     --db-host 192.168.0.9 --db-port 3306 --db-user cattle --db-pass cattle --db-name cattle
 
