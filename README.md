@@ -83,3 +83,54 @@ docker run --name some-wordpress -e WORDPRESS_DB_HOST=192.168.0.9 \
     -e WORDPRESS_DB_USER=... -e WORDPRESS_DB_PASSWORD=root -d wordpress
 
 
+#add nfs for fileshare on lb server
+
+sudo apt-get install nfs-kernel-server 
+
+mkdir /data/jenkins_data
+
+chmod 777 /data/jenkins_data -R
+
+cat /etc/exports
+
+/data/jenkins_data *(rw,sync,no_subtree_check)
+
+
+/etc/init.d/nfs-kernel-server reload
+
+showmount -e 127.0.0.1
+
+
+#mount nfs at node01 node02
+
+apt-get install nfs-common -y
+
+mkdir /data/jenkins_data -p
+
+mount -t nfs 192.168.0.8:/data/jenkins_data /data/jenkins_data
+
+
+#launch jenkins docker
+
+#MK Testing
+
+stop docker service
+
+about 2mins all services will bring back
+
+start docker service
+
+about 3mins all services will ready for recevice tasks
+
+#auto scale in/out Testing
+
+scale + 3 wp1a / scale + 3 wp2a
+
+less than 1min new services ready
+
+scale -3 
+
+less than 1min cold service down
+
+
+
